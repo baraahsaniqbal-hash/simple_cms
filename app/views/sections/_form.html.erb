@@ -11,7 +11,7 @@
     </tr>
     <tr>
         <th><%=f.label(:position)%></th>
-        <td><%= f.text_field :position %></td>
+        <td><%= f.select :position, 1..@section_count,{ include_blank: "None" } %></td>
     </tr>
     <tr>
         <th><%=f.label(:content_type)%></th>

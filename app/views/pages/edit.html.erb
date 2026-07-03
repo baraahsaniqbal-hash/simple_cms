@@ -1,13 +1,13 @@
  <% @page_title ="Edit Page" %>
 
-<%= link_to("<< Back to List", pages_path , :class => 'back-link' )%>
+<%= link_to("<< Back to List", pages_path(subject_id: @page.subject.id), :class => 'back-link' )%>
 
 <div class="pages edit">
-    <h2>Create Page</h2>
-    <%= form_for(@page, url: page_path(@page), method: :patch) do |f| %>
+    <h2>Edit Page</h2>
+    <%= form_for(@page, url: page_path(subject_id: @page.subject.id), method: :patch) do |f| %>
         <%= render partial: "form", locals: { f: f } %> 
         <div class = "form-buttons">
-            <%= submit_tag("Update Subject") %>
+            <%= submit_tag("Update Page") %>
         </div>
     <% end %>
 </div>

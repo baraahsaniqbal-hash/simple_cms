@@ -1,9 +1,11 @@
  <% @page_title ="Pages" %>
 
+<%= link_to("<< back to Subjects", subjects_path )%>
+
 <div class = "pages index">
     <h2> Pages </h2>
 
-    <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Add New Page", new_page_path, :class => 'action new' )%>
+    <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Add New Page", new_page_path(subject_id: @subject.id), :class => 'action new' )%>
 
     <div><%=pluralize(@pages.size,'page')%> found</div>
     <table class="listing" summary="Page list">
@@ -25,10 +27,10 @@
             <td class = "center" ><%= status_tag(page.visible) %></td>
             <td class = "center" ><%= page.sections.size %></td>
             <td class = "actions">
-                <%= link_to("Show", page_path(page.id), :class => 'action show') %>
-                <%= link_to("Edit", edit_page_path(page.id), :class => 'action edit') %>
-                <%= button_to "Delete", page_path(page.id), method: :delete, 
-                    class: 'action delete' %>
+                <%= link_to("View Sections",{controller: 'sections', page_id: page.id}, :class => 'action show') %>
+                <%= link_to("Show", page_path(page.id, :subject_id => page.subject.id), :class => 'action show') %>
+                <%= link_to("Edit", edit_page_path(page.id, :subject_id => page.subject.id), :class => 'action edit') %>
+                <%= button_to "Delete", page_path(page.id, :subject_id => page.subject.id), method: :delete,  class: 'action delete' %>
             </td>
         </tr>
         <% end %>

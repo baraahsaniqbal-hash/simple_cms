@@ -1,14 +1,19 @@
 class Page < ApplicationRecord
 
+  #has_and_belongs_to_many :editors, :class_name => "AdminUser", dependent: :destroy
+
   belongs_to :subject
-  has_and_belongs_to_many :editors, :class_name => "AdminUser", dependent: :destroy
   has_many :sections, dependent: :destroy
+  
+  acts_as_list scope: :subject
+
+  before_validation :add_default_permalink
+  after_save :touch_subject
+  after_validation :log_errors_if_any
+  before_update :prevent_home_permalink_change
+  after_save :notify_save_success
 
   #validates :editors, length: { minimum: 1, message: "must have at least one editor assigned" }
-  
-  
-
-
   validates_presence_of :name
   validates_length_of :name, :maximum => 255
   validates_presence_of :permalink
@@ -35,4 +40,30 @@ class Page < ApplicationRecord
   }
   scope :recent, lambda{ where(:created_at => 1.week.ago..Time.now)}
 
+  private
+    def add_default_permalink
+      if permalink.blank?
+        self.permalink = "#{position}-#{name.parameterize}"
+      end
+    end
+
+    def touch_subject
+      #touch the associated subject, updating its updated_at timestamp
+      subject.touch
+    end
+
+    def log_errors_if_any
+      puts "Validation failed: #{errors.full_messages}" if errors.any?
+    end
+
+    def prevent_home_permalink_change
+      if permalink_was == "home" && permalink_changed?
+        errors.add(:permalink, "Cannot change the home page link.")
+        throw(:abort) # Stops the update from saving
+      end
+    end
+
+    def notify_save_success
+      puts "Page successfully saved to the database!"
+    end
 end

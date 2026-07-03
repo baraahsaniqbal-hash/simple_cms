@@ -1,0 +1,16 @@
+<% @page_title = @page.name %>
+
+<h2><%= @page.name %></h2>
+
+<% @page.sections.each do |section| %>
+  <% if section.visible? %>
+    <div class="section">
+      <% case section.content_type %>
+      <% when "text" %>
+        <%= simple_format(section.content) %>
+      <% when "HTML" %>
+        <%= raw(sanitize(section.content, tags: %w(strong em a))) %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

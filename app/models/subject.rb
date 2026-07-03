@@ -2,6 +2,10 @@ class Subject < ApplicationRecord
 
   has_many :pages, dependent: :destroy
 
+  acts_as_list
+
+  after_update :log_visibility_change
+
   #absence
   #validates :name, :absence => true, if: :position?
   #acceptance
@@ -29,5 +33,12 @@ class Subject < ApplicationRecord
     where(["name LIKE ?", "%#{query}%"])
   }
   scope :recent, lambda{ where(:created_at => 1.week.ago..Time.now)}
+
+  private
+  def log_visibility_change
+    if saved_change_to_visible?
+      puts "Subject '#{name}' visibility changed to #{visible}."
+    end
+  end
   
 end

@@ -50,7 +50,7 @@ a:hover {}
 #navigation { 
     float: left; 
     width: 180px; 
-    min-height: 480px; 
+    min-height: 500px; 
     padding: 10px;
     background: #94B26F; 
     color: #4C2516; }

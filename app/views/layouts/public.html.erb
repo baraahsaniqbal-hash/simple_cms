@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Cms | <%= " | #{@page_title} " if @page_title %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body>
+    <div id="header">
+      <h1>Simple CMS</h1>
+    </div>
+    <% if user_signed_in? %>
+            <div id="loggedin">
+                <div id="username">Logged in as <strong><%= current_user.username %></strong></div>
+                <div id="logout"><%= link_to "Logout", destroy_user_session_path, method: :delete %></div>
+            </div>
+    <% end %>
+    <div id="main">
+        <div id="navigation">
+            <%= render 'shared/navigation', subjects: @subjects %>
+        </div>
+        
+        <div id="content">
+            <%= yield %>
+        </div>
+        <div id="clear"></div>
+    </div>
+    <div id="footer">
+        <p id="copyright">&copy; Rails.com / Brainarcs</p>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
-  
-  #root 'subjects#index'
+
+  root 'public#index'
+  get '/public/show/:permalink', to: 'public#show', as: :public_show
+ 
+  devise_for :users, controllers: {
+        sessions: 'users/sessions',
+        registrations: 'users/registrations'
+  }
   resources :subjects
   resources :pages
   resources :sections

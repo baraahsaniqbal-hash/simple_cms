@@ -4,6 +4,7 @@
 
  <% @page_title ="subjects" %>
 
+
 <div class = "subjects index">
     <h2> Subjects </h2>
 
@@ -25,6 +26,7 @@
             <td class = "center" ><%= status_tag(subject.visible) %></td>
             <td class = "center" ><%= subject.pages.size %></td>
             <td class = "actions">
+                <%= link_to("View Pages",{controller: 'pages', subject_id: subject.id}, :class => 'action show') %>
                 <%= link_to("Show", subject_path(subject.id), :class => 'action show') %>
                 <%= link_to("Edit", edit_subject_path(subject.id), :class => 'action edit') %>
                 <%= button_to "Delete", subject_path(subject.id), method: :delete, 
