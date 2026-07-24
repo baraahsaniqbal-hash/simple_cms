@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-between align-items-center">
+  <h1>Universities</h1>
+  <div class="">
+    <% if current_user&.admin? %>
+      <%= link_to 'View subjects', subjects_path, class:'btn btn-show' %>
+      <%= link_to 'New University', new_university_path, class: 'btn btn-create', data: {bs_toggle: 'modal', bs_target: '#universityModal'}, remote: true %>
+    <% end %>
+  </div>
+</div>
+
+<div id="universitiesTable"> 
+  <%= render "table" %>
+</div>
+
+<div class="d-flex justify-content-center">
+        <%== pagy_bootstrap_nav(@pagy) %>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="universityModal" tabindex="-1" aria-labelledby="universityModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="universityModalLabel"></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="universityForm">
+      </div>
+    </div>
+  </div>
+</div>

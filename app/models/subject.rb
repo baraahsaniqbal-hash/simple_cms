@@ -1,8 +1,13 @@
 class Subject < ApplicationRecord
 
-  has_many :pages, dependent: :destroy
-
+  # belongs_to :user
   acts_as_list
+
+  # has_many :pages, dependent: :destroy
+  has_and_belongs_to_many :universities, after_add: :increment_university_counter,
+                          after_remove: :decrement_university_counter
+
+  has_and_belongs_to_many :users
 
   after_update :log_visibility_change
 
@@ -20,6 +25,7 @@ class Subject < ApplicationRecord
   # Don't need to validate (in most cases):
   #   ids, foreign keys, timestamps, booleans, counters
   validates_presence_of :name
+  validates_uniqueness_of :name, case_sensitive: false
   validates_length_of :name, :maximum => 255
   #   validates_presence_of vs. validates_length_of :minimum => 1
   #   different error messages: "can't be blank" or "is too short"
@@ -39,6 +45,14 @@ class Subject < ApplicationRecord
     if saved_change_to_visible?
       puts "Subject '#{name}' visibility changed to #{visible}."
     end
+  end
+
+  def increment_university_counter(university)
+    University.increment_counter(:subjects_count, university.id)
+  end
+
+  def decrement_university_counter(university)
+    University.decrement_counter(:subjects_count, university.id)
   end
   
 end

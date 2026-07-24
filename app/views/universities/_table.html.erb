@@ -1,0 +1,42 @@
+<table class="table table-striped table-bordered" >
+  <thead>
+    <tr>
+      <th>Name</th>
+      <% if current_user&.admin? %>
+        <th>Domains</th>
+        <th>Actions</th>
+      <% else %>
+        <th>Unique Signup Link</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @universities.each do |university| %>
+      <tr>
+        <td>
+          <%= university.name %>
+        </td>
+        <!-- Displays the absolute secure registration URL -->
+        <td>
+          <% if user_signed_in? %>
+            <% if current_user.admin? %>
+              <%= link_to "http://#{university.domain.host}", "http://#{university.domain.host}:3000" %>
+              <%#= link_to "http://#{university.domain}/join/#{university.slug}", "http://#{university.domain}/join/#{university.slug}"  %>
+            <% else %>         
+              <%= link_to "http://#{university.domain.host}", "http://#{university.domain.host}:3000/users/sign_up" %>
+            <% end %>
+          <% else %>      
+              <%= link_to "http://#{university.domain.host}", "http://#{university.domain.host}:3000/users/sign_up" %>
+          <% end %>
+        </td>
+        <% if current_user&.admin? %>
+          <td>
+            <%= link_to 'Show', university, class: 'btn btn-show' %>
+            <%= link_to 'Edit', edit_university_path(university), class: 'btn btn-edit', data: {bs_toggle: 'modal', bs_target: '#universityModal'}, remote: true %>
+            <%= link_to 'Destroy', university, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-destroy', remote: true %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -10,21 +10,16 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
-    <div id="header">
-      <h1>Simple CMS Admin</h1>
-    </div>
-     <% if user_signed_in? %>
-            <div id="loggedin">
-                <div id="username">Logged in as <strong><%= current_user.username %></strong></div>
-                <div id="logout"><%= link_to "Logout", destroy_user_session_path, method: :delete %></div>
-            </div>
+    <%= render 'shared/navbar' %>
+    <% if user_signed_in? %>
+      <h6 class="user-status-text"> 
+        User:  <strong><%= "#{current_user.first_name} #{current_user.last_name}" %>
+      </h6>
     <% end %>
     <div id="main">
-      <% if !flash[:notice].blank? %>
-        <div class = "notice">
-            <%= flash[:notice] %>
-        </div>
-      <% end %>
+      <div id="flash">
+        <%= render "shared/flash" %>
+      </div>
       <div id="content">
         <%= yield %>
       </div>

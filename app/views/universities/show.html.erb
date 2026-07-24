@@ -1,0 +1,118 @@
+<h1 class="text-center" >
+  <%= @university.name %>
+</h1>
+
+
+<div class="d-flex flex-column align-items-center">
+  <p class="mb-0">
+    <strong>
+      Unique Student Signup Link:
+    </strong>
+  </p>
+  <input class="mx-2" type="text" readonly value = "<%= "http://#{@university.domain.host}:3000/users/sign_up" %>" onclick="this.select();">
+  <small class="mb-0 text-muted">
+    Share this URL with students to register here.
+  </small>
+</div>
+
+<% if current_user.admin?%>
+  <h3>
+      Enrolled Students (<%= @university.users_count %>)
+  </h3>
+  
+  <% if @university.users.present? %>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Full Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @university.users.each do |student| %>
+          <tr>
+            <td><strong><%= student.username %></strong></td>
+            <td><%= student.first_name %> <%= student.last_name %></td>
+            <td><%= student.email %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>
+      No students have enrolled in this university yet.
+    </p>
+  <% end %>
+
+  <h3>Subjects Offering (<%= @university.subjects_count %>)</h3>
+
+  <% if @subjects %>
+    <table class="table table-striped table-bordered ">
+      <thead>
+        <tr>
+          <th>Subjects</th>
+          <th>Enrolled Students</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @subjects.each do |subject| %>
+            <tr>
+              <td><%= subject.name %></td>
+              <td><%= subject.users.count { |u| u.university_id == @university.id } %></td>
+            </tr>
+          <% end %>
+      </tbody>
+    </table>
+     <div class="d-flex justify-content-center">
+        <%== pagy_bootstrap_nav(@pagy) %>
+    </div>
+  <% else %>
+      <p>
+        No subject have assigned in this university yet.
+      </p>
+  <% end %>
+  <hr>
+  <div class="d-flex justify-content-end">
+    <%= link_to 'Back', universities_path, class: 'btn btn-back' %> 
+  </div>
+  
+<% else %>
+
+  <div class="text-end" > <%= link_to 'Enroll subjects', subjects_path, class:'btn btn-show' %></div>
+  
+  <h3>Your Enrolled Subjects (<%= @subjects.count %>)</h3>
+    <% if @subjects %>
+      <table class="table table-striped table-bordered align-middle">
+        <thead>
+          <tr>
+            <th>Subject Name</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @subjects.each do |subject| %>
+            <tr>
+              <td><%= subject.name %></td>
+              <td><span class="badge bg-success">Enrolled</span></td>
+              <td>
+                <%= button_to "Unenroll", remove_subject_path(subject), 
+                    method: :delete, 
+                    data: { confirm: "Are you sure you want to drop #{subject.name}?" }, 
+                    class: "btn btn-destroy" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-center">
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </div>
+    <% else %>
+      <div class="alert alert-warning">
+        You are not enrolled in any subjects yet
+      </div>
+    <% end %>
+<% end %>
+  

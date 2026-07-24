@@ -30,6 +30,12 @@ gem 'acts_as_list', '~> 1.0'
 gem 'bootsnap', '>= 1.4.4', require: false
 # devise for user authentication
 gem 'devise'
+# friendly_id for human-readable URLs
+gem 'friendly_id', '~> 5.5.0'
+# select2 gem for dropdown
+# gem 'select2-rails', '~> 4.0.12'
+# pagy gem for pagination
+gem 'pagy', '~> 9.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

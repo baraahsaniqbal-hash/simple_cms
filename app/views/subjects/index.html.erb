@@ -4,35 +4,67 @@
 
  <% @page_title ="subjects" %>
 
-
-<div class = "subjects index">
+<div>
     <h2> Subjects </h2>
 
-    <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Add New Subject", new_subject_path, :class => 'action new' )%>
-
-    <div><%=pluralize(@subjects.size,'subject')%> found</div>
-    <table class="listing" summary="Subject list">
-        <tr class="header">
-            <th>&nbsp;</th>
-            <th>Subject</th> 
-            <th>Visible</th>
-            <th>Pages</th>
-            <th>Actions</th>
-        </tr>
-        <% @subjects.each do |subject| %>
-        <tr class="<%= cycle('odd','even')%>">
-            <td><%= subject.position%></td>
-            <td><%= subject.name%></td>
-            <td class = "center" ><%= status_tag(subject.visible) %></td>
-            <td class = "center" ><%= subject.pages.size %></td>
-            <td class = "actions">
-                <%= link_to("View Pages",{controller: 'pages', subject_id: subject.id}, :class => 'action show') %>
-                <%= link_to("Show", subject_path(subject.id), :class => 'action show') %>
-                <%= link_to("Edit", edit_subject_path(subject.id), :class => 'action edit') %>
-                <%= button_to "Delete", subject_path(subject.id), method: :delete, 
-                    class: 'action delete' %>
-            </td>
-        </tr>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <%=pluralize(@subjects.size,'subject')%> found
+        <% if current_user.admin?%>
+            <%= link_to(image_tag('plus_sign.png', :size => '11x11', :alt => '+') + " Add New Subject", new_subject_path, :class => 'btn btn-create' )%>
+        <% end %>
+    </div>
+    <table class="table table-striped table-bordered">
+        <% if current_user.admin?%>
+            <tr class="header">
+                <th>&nbsp;</th>
+                <th>Subject</th> 
+                <th>Visible</th>
+                <!-- <th>Pages</th> -->
+                <th>Actions</th>
+            </tr>
+            <% @subjects.each do |subject| %>
+            <tr class="<%= cycle('odd','even')%>">
+                <td><%= subject.position%></td>
+                <td><%= subject.name%></td>
+                <td class = "center" ><%= status_tag(subject.visible) %></td>
+                <td class = "actions">
+                    <%#= link_to("View Pages",{controller: 'pages', subject_id: subject.id}, :class => 'action show') %>
+                    <%= link_to("Show", subject_path(subject.id), :class => 'btn btn-show') %>
+                    <%= link_to("Edit", edit_subject_path(subject.id), :class => 'btn btn-edit') %>
+                    <%= link_to("Delete", subject_path(subject.id), method: :delete, 
+                        class: 'btn btn-destroy') %>
+                </td>
+            </tr>
+            <% end %>
+        <% else %>
+            <tr class="header">
+                <th>Subject</th> 
+                <th>Action</th>
+            </tr>
+            <% @subjects.each do |subject| %>
+                <tr>
+                    <td><%= subject.name %></td>
+                    <% if current_user.subjects.include?(subject) %>
+                        <td><span class="badge bg-success">Added</span></td>
+                    <% else %>
+                        <td><%= button_to "Add",
+                        add_subject_path(subject),
+                        method: :post, class:'btn btn-create' %></td>
+                    <% end %>
+                </tr>
+            <% end %>
         <% end %>
     </table>
+    <div class="d-flex justify-content-center my-4">
+        <%== pagy_bootstrap_nav(@pagy) %>
+    </div>
+    <% if current_user.admin? %>
+        <div class="d-flex justify-content-end">
+            <%= link_to 'Back', universities_path, class: 'btn btn-back' %> 
+        </div>
+    <% else %>
+        <div class="d-flex justify-content-end">
+            <%= link_to 'Back', university_path(current_user.university), class: 'btn btn-back' %> 
+        </div>
+    <% end %>
 </div>

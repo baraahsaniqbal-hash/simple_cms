@@ -38,7 +38,7 @@ a:hover {
     text-decoration: underline; 
 }
 /** large action buttons */
-a.action { 
+/* a.action { 
     float: right; 
     padding: 2px 5px; 
     margin: 0 0 1em 1em;
@@ -61,7 +61,7 @@ a.action:hover {
     padding: 1px 2px; 
     margin: 2px 5px; 
     font-size: 0.7em; 
-}
+} */
 /** CRUD */
 .notice { 
     height: 1.25em; 
@@ -160,4 +160,80 @@ span.status.false {
 }
 #errorExplanation ul li { 
     list-style: square; 
+}
+
+.nav-link.active{
+    color: #AA0000 !important; 
+}
+
+.nav-link.dropdown-toggle{
+    color: #AA0000 !important;
+}
+/* Centers the logged-in text banner perfectly */
+.user-status-text {
+  text-align: center;
+  margin-top: 10px;    /* Optional: adds a little breathing room above the text */
+  margin-bottom: 10px; /* Optional: adds a little breathing room below the text */
+  width: 100%;         /* Ensures the element stretches fully to calculate the center */
+}
+
+/* Base style for all action buttons */
+/* .btn-action {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none !important;
+  border-radius: 4px;
+  text-align: center;
+  transition: background-color 0.2s ease;
+} */
+
+/* Black Show Button */
+.btn-show {
+  background-color: #222222 !important;
+  color: #FFFFFF !important;
+}
+.btn-show:hover {
+  background-color: #444444 !important;
+}
+
+/* Green Edit Button */
+.btn-edit {
+  background-color: #28a745 !important;
+  color: #FFFFFF !important;
+}
+.btn-edit:hover {
+  background-color: #218838 !important;
+}
+
+/* Red Destroy Button */
+.btn-destroy {
+  background-color: #dc3545 !important;
+  color: #FFFFFF !important;
+}
+.btn-destroy:hover {
+  background-color: #c82333 !important;
+}
+/* Blue Create Button */
+.btn-create {
+  background-color: #007bff !important; /* Royal Blue */
+  color: #FFFFFF !important;
+}
+.btn-create:hover {
+  background-color: #0069d9 !important;
+}
+.btn-back {
+  background-color: whitesmoke !important;
+  color: black !important;
+}
+.btn-back:hover {
+  background-color: #444444 !important;
+}
+.btn-auth{
+  background-color: #007bff !important; /* Royal Blue */
+  color: #FFFFFF !important;
+}
+.btn-auth:hover {
+  background-color: #444444 !important;
 }

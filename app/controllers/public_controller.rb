@@ -1,8 +1,8 @@
 class PublicController < ApplicationController
 
-  layout 'public'
-  before_action :authenticate_user!
-  before_action :set_navigation
+  # layout 'public'
+  # before_action :authenticate_user!
+  # before_action :set_navigation
   def index
   end
 

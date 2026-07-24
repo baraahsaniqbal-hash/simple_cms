@@ -7,7 +7,7 @@ class Section < ApplicationRecord
 
   acts_as_list scope: :page
   before_create :set_default_visibility
-  after_create :create_initial_log
+  # after_create :create_initial_log
 
   CONTENT_TYPES = ['text', 'HTML']
 

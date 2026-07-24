@@ -16,7 +16,15 @@ import jQuery from "jquery"
 window.$ = $;
 window.jQuery = jQuery;
 
+// Add these two lines for Select2
+import "select2"
+import "select2/dist/css/select2.css"
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+// Initialize Select2 with Turbolinks support
+$(document).on('turbolinks:load', function() {
+  $(".select2,.select2-enable").select2();
+});

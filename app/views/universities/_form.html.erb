@@ -1,0 +1,33 @@
+<div class="d-flex flex-column align-items-center">
+  <%= form_with(model: university, local: false) do |form| %>
+  <!-- <div class="field row justify-content-center gap-3"> -->
+    <!-- <div class="col-7"> -->
+    <div class="modal-body">
+      <%= error_messages_for(university) %>
+    <!-- </div> -->
+
+    <!-- <div class="col-7"> -->
+      <%= form.label :name %><br>
+      <%= form.text_field :name, placeholder: "Enter university name...",class: "form-control" %>
+    <!-- </div>  -->
+
+    <%= form.fields_for :domain do |domain| %>
+      <%= domain.label :host, "Domain" %>
+      <%= domain.text_field :host, class: "form-control", placeholder: "univeristy.lvh.me" %>
+    <% end %>
+
+    <!-- <div class="col-7 d-flex justify-content-end gap-2"> -->
+    <!-- <div class="d-flex justify-content-between mt-2"> -->
+      <%# Dynamically choose the color class based on the model state %>
+        <%#= link_to 'Back', universities_path, class: 'btn btn-back' %>
+    <!-- </div> -->
+  <!-- </div> -->
+    </div>
+
+    <div class="modal-footer justify-content-between mt-3">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <% btn_color_class = form.object.new_record? ? "btn btn-create" : "btn btn-edit" %>
+      <%= form.submit class: "#{btn_color_class}" %>
+    </div>
+  <% end %>
+</div>

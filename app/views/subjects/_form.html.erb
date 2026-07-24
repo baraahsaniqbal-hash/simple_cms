@@ -1,20 +1,35 @@
 <%= error_messages_for(@subject) %>
 
-<table summary ="Subject form fields">
-    <tr>
-        <th><%= f.label(:name,"Name") %></th>
-        <td><%= f.text_field :name %></td>
-    </tr>
-    <tr>
-        <th><%= f.label(:position) %></th>
-        <td><%= f.select :position, 1..@subject_count, {selected: @subject_count,prompt: "Select an option",include_blank: "None",disabled: 1} %></td>
-    </tr>
-    <tr>
-        <th><%= f.label(:visible) %></th>
-        <td><%= f.check_box :visible %></td>
-    </tr>
-    <tr>
-        <th><%= f.label(:created_at) %></th>
-        <td><%= f.datetime_select :created_at, { order: [:day,:month,:year]} %></td>
-    </tr>
-</table>
+<div class="subjects new">
+    <h2>Create Subject</h2>
+    <%= form_with(model: @subject) do |f| %>
+        <div class="row justify-content-center mb-2">
+            <div class="col-md-7 mb-2">
+                <%= f.label(:name,"Name") %><br/>
+                <%= f.text_field :name, class:"form-control" %> 
+            </div>
+            <div class="col-md-7 mb-2">
+                <%= f.label(:position) %> 
+                <%= f.select :position, 1..@subject_count, {selected: @subject_count,prompt: "Select an option",include_blank: "None",disabled: 100}, class:"form-select" %> 
+            </div>
+            <div class="col-md-7">
+                <%= f.label(:visible) %> 
+                <%= f.check_box :visible, class:"form-check" %> 
+            </div>
+            <div class="col-md-7 mb-3">
+                <%= f.label :universities %>
+                <%= f.collection_select :university_ids,
+                                        University.order(:name),
+                                        :id,:name,{},
+                                        {
+                                            multiple: true,
+                                            class: "form-select select2"
+                                        } %>
+            </div>
+            <div class="col-7 d-flex justify-content-end gap-2">
+                <%= link_to("Back", subjects_path , :class => 'btn btn-back' )%>
+                <%= f.submit class:"btn btn-create"%>
+            </div>
+        </div>
+    <% end %>
+</div>

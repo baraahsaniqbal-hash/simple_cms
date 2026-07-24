@@ -1,0 +1,7 @@
+<% if @university.errors.any? %>
+    $("#universityForm").html("<%= escape_javascript render 'form', university: @university %>");
+<% else %>
+    $("#universitiesTable").html("<%= escape_javascript render 'table' %>");
+    $("#universityModal").modal("hide");
+    $("#flash").html("<%= j render 'shared/flash' %>");
+<% end %>

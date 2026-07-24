@@ -1,13 +1,40 @@
 Rails.application.routes.draw do
 
-  root 'public#index'
-  get '/public/show/:permalink', to: 'public#show', as: :public_show
+  root "universities#index"
+  constraints AdminDomainConstraint do
+
+    root to: "universities#index", as: :universities_index
+    resources :universities
+    resources :subjects
+
+  end
+
+  constraints UniversityDomainConstraint do
+
+    resources :universities, only: [:index, :show]
+    root to: "universities#show", as: :universities_show
+
+    resources :subjects, only: [:index] do
+      member do
+        post :add
+        delete :remove
+      end
+    end
+
+  end
+  
+  # root 'universities#index'
+  # get '/public/show/:permalink', to: 'public#show', as: :public_show
  
   devise_for :users, controllers: {
         sessions: 'users/sessions',
         registrations: 'users/registrations'
   }
-  resources :subjects
+
+  # devise_scope :user do
+  #   get 'join/:slug', to: "users/registrations#new", as: :join
+  # end
+
   resources :pages
   resources :sections
   match ':controller(/:action(/:id))', via: :all
