@@ -4,18 +4,22 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
   <div class="row justify-content-center">
+
     <div class="field col-md-4 mb-3">
       <%= f.label :first_name %><br />
       <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name",class: "form-control" %>
     </div>
+
     <div class="field col-md-4 mb-3">
       <%= f.label :last_name %><br />
       <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name",class: "form-control" %>
     </div>
+
     <div class="field col-md-8 mb-3">
       <%= f.label :username %><br />
       <%= f.text_field :username, autofocus: true, autocomplete: "username",class: "form-control" %>
     </div>
+
     <div class="field col-md-8 mb-3">
       <%= f.label :email %><br />
       <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "form-control" %>
@@ -24,6 +28,11 @@
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
     <% end %>
+
+    <div class="field col-md-8 mb-3">
+      <%= f.label :phone %><br />
+      <%= f.text_field :phone, placeholder: "optional", autofocus: true, autocomplete: "phone", class: "form-control" %>
+    </div>
 
     <div class="field col-md-8 mb-3">
       <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
@@ -45,12 +54,16 @@
     </div>
 
     <div class="actions d-flex col-md-8 justify-content-between mb-3">
+
       <%= link_to "Back", :back, class: "btn btn-back" %>
+
       <div>
         <%= button_to "delete my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-destroy" %>
         <%= f.submit "Update", class: "btn btn-auth" %>
       </div>
+      
     </div>
+
   </div>
 <% end %>
 
